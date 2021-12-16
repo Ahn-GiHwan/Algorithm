@@ -1,34 +1,37 @@
 // readline 모듈보다는 fs를 이용해 파일 전체를 읽어 들여 처리하기
 let fs = require("fs");
 // let input = fs.readFileSync('/dev/stdin').toString()
-// let input = fs.readFileSync('/dev/stdin').toString().split('\n')
+// let input = fs.readFileSync('/dev/stdin').toString().split('\n');
 // let input = fs.readFileSync('input.txt').toString()
 let input = fs.readFileSync("input.txt").toString().split("\n");
 
 // ==================================================
-let n = Number(input[0]);
-let m = Number(input[1]);
+const a = Number(input[0]);
+const b = Number(input[1]);
 
-let graph = [];
-for (let i = 1; i <= n; i++) {
-  graph[i] = [];
-}
-for (let i = 2; i <= m + 1; i++) {
-  let [x, y] = input[i].split(" ").map(Number);
-  graph[x].push(y);
-  graph[y].push(x);
+let data = [];
+
+for (let i = 1; i <= a; i++) {
+  data[i] = [];
 }
 
-let cnt = 0;
-let visited = new Array(n + 1).fill(false);
-function dfs(x) {
-  visited[x] = true;
-  cnt++;
-  for (y of graph[x]) {
-    if (!visited[y]) {
-      dfs(y);
-    }
-  }
+for (let i = 2; i <= b + 1; i++) {
+  const [a, b] = input[i].split(" ").map(Number);
+  data[a].push(b);
+  data[b].push(a);
 }
+
+let result = 0;
+let visited = Array(a).fill(0);
+
+function dfs(idx) {
+  visited[idx] = 1;
+  result++;
+  data[idx].forEach((num) => {
+    if (!visited[num]) dfs(num);
+  });
+}
+
 dfs(1);
-console.log(cnt - 1);
+
+console.log(result - 1);
