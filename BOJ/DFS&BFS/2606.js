@@ -6,32 +6,42 @@ let fs = require("fs");
 let input = fs.readFileSync("input.txt").toString().split("\n");
 
 // ==================================================
-const a = Number(input[0]);
-const b = Number(input[1]);
-
+let computerLen = Number(input[0]);
+let setLen = Number(input[1]);
 let data = [];
 
-for (let i = 1; i <= a; i++) {
+for (let i = 0; i < computerLen + 1; i++) {
   data[i] = [];
 }
 
-for (let i = 2; i <= b + 1; i++) {
-  const [a, b] = input[i].split(" ").map(Number);
+for (let i = 2; i <= setLen + 1; i++) {
+  let [a, b] = input[i].split(" ").map(Number);
   data[a].push(b);
   data[b].push(a);
 }
 
-let result = 0;
-let visited = Array(a).fill(0);
+let visited = Array(computerLen + 1).fill(0);
 
-function dfs(idx) {
-  visited[idx] = 1;
-  result++;
-  data[idx].forEach((num) => {
-    if (!visited[num]) dfs(num);
-  });
+function dfs(num) {
+  if (!visited[num]) {
+    visited[num] = 1;
+    data[num].forEach((id) => dfs(id));
+  }
 }
 
 dfs(1);
 
-console.log(result - 1);
+console.log(visited.filter((computer) => computer).length - 1);
+
+/*
+7
+6
+1 2
+2 3
+1 5
+5 2
+5 6
+4 7
+================
+4
+ */
