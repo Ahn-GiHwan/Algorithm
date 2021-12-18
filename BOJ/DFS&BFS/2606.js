@@ -10,7 +10,7 @@ let computerLen = Number(input[0]);
 let setLen = Number(input[1]);
 let data = [];
 
-for (let i = 0; i < compterLen + 1; i++) {
+for (let i = 0; i < computerLen + 1; i++) {
   data[i] = [];
 }
 
